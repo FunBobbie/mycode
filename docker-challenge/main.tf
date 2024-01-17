@@ -1,4 +1,7 @@
-terraform {terraform {
+/* Challenge Solution - Terraform and Docker
+   main.tf */
+
+terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
@@ -9,45 +12,16 @@ terraform {terraform {
 
 provider "docker" {}
 
-resource "docker_image" "nginx" {
-  name         = "registry.gitlab.com/alta3/simplegoservicIe"
-  keep_locally = true    // keep image after "destroy"
+resource "docker_image" "simplegoservice" {
+  name         = "registry.gitlab.com/alta3/simplegoservice"
+  keep_locally = true      // keep image after "destroy"
 }
 
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.image_id
-  # here we removed the name "tutorial" for the container
-  # and replace it with a call to a variable
-  # name  = "tutorial"
+resource "docker_container" "simplegoservice" {
+  image = docker_image.simplegoservice.image_id
   name = var.container_name
   ports {
-    internal = 80
-    external = 2224
-  }
-}
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 2.22.0"
-    }
-  }
-}
-
-provider "docker" {}
-
-resource "docker_image" "nginx" {
-  name         = "registry.gitlab.com/alta3/simplegoservicIe"
-  keep_locally = true    // keep image after "destroy"
-}
-
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.image_id
-  # here we removed the name "tutorial" for the container
-  # and replace it with a call to a variable
-  # name  = "tutorial"
-  name = var.container_name
-  ports {
-    internal = 80
-    external = 2224
+    internal = var.internal_port
+    external = var.external_port
   }
 }

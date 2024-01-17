@@ -1,23 +1,25 @@
-# variables.tf - with validations
+/* Challenge Solution - Terrform and Docker
+   Create this file to track the variables used
+   variables.tf */
+
+# default value of container_name should be AltaResearchWebService
 variable "container_name" {
-  description = "Value of the name for the Docker container"
+  description = "name of the container"
   type        = string
   default     = "AltaResearchWebService"
-  
-  validation {
-     condition     = length(var.container_name) > 8 && substr(var.container_name, 0, 7) == "Example"
-     error_message = "The container_name must begin with Example"
-  } 
 }
 
+# default value of internal_port should be 9876
 variable "internal_port" {
-  description = "Internal port of the container"
+  description = "internal port to be used"
   type        = number
   default     = 9876
 }
 
+# default value of internal_port should be 5432
 variable "external_port" {
-  description = "External port on the container"
+  description = "external port to be used"
   type        = number
   default     = 5432
 }
+
